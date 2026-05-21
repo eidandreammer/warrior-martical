@@ -1673,6 +1673,16 @@
   }
 }
 
+@media (min-width: 1101px) and (max-width: 1440px) {
+  :root {
+    --max-width: 1020px;
+  }
+
+  html {
+    font-size: 85%;
+  }
+}
+
 @media (hover: none) {
   .instructor-card {
     min-height: auto;
