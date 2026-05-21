@@ -220,195 +220,101 @@ const socialLinks = [
   },
 ]
 
-const createEvent = (date, time, title, description) => ({
-  id: `${date}-${time}-${title}`.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
-  date,
-  time,
-  title,
-  description,
-  category: 'Classes',
+const defaultScheduleLocation = {
   locationName: 'Hasbrouck Heights',
   address: '460 Boulevard, Hasbrouck Heights, NJ 07604',
   viewLocation: viewLocationUrl,
   map: mapUrl,
+}
+
+const scheduleAppointmentFields = [
+  {
+    key: 'kids-open-training',
+    audience: 'kids',
+    category: 'Classes',
+    title: 'Kids class and open Adult training',
+    description:
+      'Youth karate plus open adult training time for belt requirements, kata, and drills.',
+    appointments: [
+      { date: '2026-05-02', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-09', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-16', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-23', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-30', time: '10:00 am - 11:00 am' },
+    ],
+  },
+  {
+    key: 'senior-healing',
+    audience: 'seniors',
+    category: 'Classes',
+    title: 'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
+    description:
+      'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
+    appointments: [
+      { date: '2026-05-04', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-04', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-11', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-11', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-18', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-18', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-25', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-25', time: '1:00 pm - 2:00 pm' },
+    ],
+  },
+  {
+    key: 'adult-karate',
+    audience: 'adults',
+    category: 'Classes',
+    title: 'Adult Karate Class',
+    description:
+      'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
+    appointments: [
+      { date: '2026-05-05', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-07', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-12', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-14', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-19', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-21', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-26', time: '7:00 pm - 8:30 pm' },
+      { date: '2026-05-28', time: '7:00 pm - 8:30 pm' },
+    ],
+  },
+  {
+    key: 'senior-movement',
+    audience: 'seniors',
+    category: 'Classes',
+    title: 'Senior classes',
+    description: 'Low-impact movement and breathing work tailored for senior students.',
+    appointments: [
+      { date: '2026-05-06', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-06', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-13', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-13', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-20', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-20', time: '1:00 pm - 2:00 pm' },
+      { date: '2026-05-27', time: '10:00 am - 11:00 am' },
+      { date: '2026-05-27', time: '1:00 pm - 2:00 pm' },
+    ],
+  },
+]
+
+const createEvent = (field, appointment) => ({
+  id: `${appointment.date}-${appointment.time}-${field.key}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-'),
+  date: appointment.date,
+  time: appointment.time,
+  title: field.title,
+  description: field.description,
+  category: field.category,
+  audience: field.audience,
+  fieldKey: field.key,
+  ...defaultScheduleLocation,
 })
 
-const scheduleEvents = [
-  createEvent(
-    '2026-05-02',
-    '10:00 am - 11:00 am',
-    'Kids class and open Adult training',
-    'Youth karate plus open adult training time for belt requirements, kata, and drills.',
-  ),
-  createEvent(
-    '2026-05-04',
-    '10:00 am - 11:00 am',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-04',
-    '1:00 pm - 2:00 pm',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-05',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-06',
-    '10:00 am - 11:00 am',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-06',
-    '1:00 pm - 2:00 pm',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-07',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-09',
-    '10:00 am - 11:00 am',
-    'Kids class and open Adult training',
-    'Youth karate plus open adult training time for belt requirements, kata, and drills.',
-  ),
-  createEvent(
-    '2026-05-11',
-    '10:00 am - 11:00 am',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-11',
-    '1:00 pm - 2:00 pm',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-12',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-13',
-    '10:00 am - 11:00 am',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-13',
-    '1:00 pm - 2:00 pm',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-14',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-16',
-    '10:00 am - 11:00 am',
-    'Kids class and open Adult training',
-    'Youth karate plus open adult training time for belt requirements, kata, and drills.',
-  ),
-  createEvent(
-    '2026-05-18',
-    '10:00 am - 11:00 am',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-18',
-    '1:00 pm - 2:00 pm',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-19',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-20',
-    '10:00 am - 11:00 am',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-20',
-    '1:00 pm - 2:00 pm',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-21',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-23',
-    '10:00 am - 11:00 am',
-    'Kids class and open Adult training',
-    'Youth karate plus open adult training time for belt requirements, kata, and drills.',
-  ),
-  createEvent(
-    '2026-05-25',
-    '10:00 am - 11:00 am',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-25',
-    '1:00 pm - 2:00 pm',
-    'Senior classes (Tai Chi Body Healing, Movement and Breathing)',
-    'Restorative movement, balance, coordinated breathing, and gentle body-healing practice.',
-  ),
-  createEvent(
-    '2026-05-26',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-27',
-    '10:00 am - 11:00 am',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-27',
-    '1:00 pm - 2:00 pm',
-    'Senior classes',
-    'Low-impact movement and breathing work tailored for senior students.',
-  ),
-  createEvent(
-    '2026-05-28',
-    '7:00 pm - 8:30 pm',
-    'Adult Karate Class',
-    'Traditional adult karate focused on kata, self-defense, conditioning drills, and belt progress.',
-  ),
-  createEvent(
-    '2026-05-30',
-    '10:00 am - 11:00 am',
-    'Kids class and open Adult training',
-    'Youth karate plus open adult training time for belt requirements, kata, and drills.',
-  ),
-]
+const scheduleEvents = scheduleAppointmentFields.flatMap((field) =>
+  field.appointments.map((appointment) => createEvent(field, appointment)),
+)
 
 const viewModes = ['Month', 'Week', 'Day']
 const categoryModes = ['Classes', 'Holiday', 'All']
@@ -733,11 +639,12 @@ function App() {
     addDays(activeWeekStart, index),
   )
   const filteredEventDates = [...new Set(filteredEvents.map((event) => event.date))]
+  const selectedDayDetails =
+    activeDayEvents[0] ?? filteredEvents[0] ?? scheduleEvents[0] ?? defaultScheduleLocation
   const eventCounts = {
-    kids: scheduleEvents.filter((event) => event.title.includes('Kids')).length,
-    adults: scheduleEvents.filter((event) => event.title.includes('Adult Karate'))
-      .length,
-    seniors: scheduleEvents.filter((event) => event.title.includes('Senior')).length,
+    kids: scheduleEvents.filter((event) => event.audience === 'kids').length,
+    adults: scheduleEvents.filter((event) => event.audience === 'adults').length,
+    seniors: scheduleEvents.filter((event) => event.audience === 'seniors').length,
   }
   const selectedInstructor =
     route.view === 'instructors'
@@ -1403,14 +1310,17 @@ function App() {
                     <span className="detail-card__label">Selected Day</span>
                     <h3>{longDateFormatter.format(activeDateObject)}</h3>
                     <p>
-                      Hasbrouck Heights, 460 Boulevard, Hasbrouck Heights, NJ
-                      07604
+                      {selectedDayDetails.locationName}, {selectedDayDetails.address}
                     </p>
                     <div className="schedule-side__actions">
-                      <a href={viewLocationUrl} target="_blank" rel="noreferrer">
+                      <a
+                        href={selectedDayDetails.viewLocation}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
                         View Location
                       </a>
-                      <a href={mapUrl} target="_blank" rel="noreferrer">
+                      <a href={selectedDayDetails.map} target="_blank" rel="noreferrer">
                         Map
                       </a>
                     </div>
