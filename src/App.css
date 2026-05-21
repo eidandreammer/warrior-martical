@@ -172,6 +172,10 @@
   top: 0;
   z-index: 40;
   backdrop-filter: blur(16px);
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease;
+  will-change: transform;
   --nav-bar-current-height: var(--nav-bar-min-height);
   --nav-bar-current-padding-y: var(--nav-bar-vertical-padding);
   --nav-shell-current-gap: var(--nav-shell-gap);
@@ -183,6 +187,12 @@
   --nav-brand-scale: 1;
   --nav-nav-scale: 1;
   --nav-utility-scale: 1;
+}
+
+.site-header.is-hidden {
+  transform: translateY(calc(-100% - 0.75rem));
+  opacity: 0;
+  pointer-events: none;
 }
 
 .site-header.is-condensed {
@@ -1497,20 +1507,141 @@
 
 .site-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.08);
-  background: #10151d;
+  background:
+    radial-gradient(circle at top left, rgba(196, 18, 48, 0.16), transparent 28%),
+    linear-gradient(180deg, #10151d 0%, #0b1016 100%);
+}
+
+.site-footer__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.45fr);
+  gap: 2rem;
+  padding: 3.2rem 0 2.4rem;
+}
+
+.site-footer__brand {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.site-footer__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  width: fit-content;
+}
+
+.site-footer__logo img {
+  width: 3.8rem;
+  height: 3.8rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #ffffff;
+  object-fit: contain;
+}
+
+.site-footer__logo span {
+  display: grid;
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-size: 2.05rem;
+  line-height: 0.88;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.site-footer__logo small {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+}
+
+.site-footer__brand p {
+  max-width: 28rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.site-footer__contact,
+.footer-menu-group ul {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.site-footer__contact a,
+.footer-menu-group a {
+  color: rgba(255, 255, 255, 0.72);
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.site-footer__contact a:hover,
+.site-footer__contact a:focus-visible,
+.footer-menu-group a:hover,
+.footer-menu-group a:focus-visible,
+.site-footer__logo:hover span,
+.site-footer__logo:focus-visible span {
+  color: #ffffff;
+}
+
+.site-footer__menu {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+  scroll-margin-top: var(--section-scroll-offset);
+}
+
+.footer-menu-group {
+  display: grid;
+  align-content: start;
+  gap: 0.85rem;
+}
+
+.footer-menu-group h3 {
+  color: #ffffff;
+  font-size: 1.25rem;
+  letter-spacing: 0.04em;
+}
+
+.footer-menu-group a {
+  width: fit-content;
+  font-size: 0.92rem;
+}
+
+.footer-menu-group a:hover,
+.footer-menu-group a:focus-visible {
+  transform: translateX(3px);
 }
 
 .site-footer__inner {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   gap: 1rem;
-  padding: 1.35rem 0 1.5rem;
+  padding: 1.25rem 0 1.5rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   color: rgba(255, 255, 255, 0.72);
   font-size: 0.88rem;
 }
 
-.site-footer__inner a:hover {
+.site-footer__top-link {
+  order: 2;
+  margin-left: auto;
+  padding: 0.7rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-sm);
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.site-footer__copyright {
+  order: 1;
+}
+
+.site-footer__inner a:hover,
+.site-footer__top-link:focus-visible {
   color: #ffffff;
 }
 
@@ -1528,6 +1659,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .site-header,
   .nav-bar,
   .nav-bar__inner,
   .brand,
@@ -1591,6 +1723,10 @@
 
   .schedule-side {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .site-footer__grid {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1669,6 +1805,10 @@
   .locations-grid,
   .schedule-side {
     grid-template-columns: 1fr;
+  }
+
+  .site-footer__menu {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .calendar__day {
@@ -1807,6 +1947,23 @@
 
   .calendar__preview {
     font-size: 0.84rem;
+  }
+
+  .site-footer__grid,
+  .site-footer__menu {
+    grid-template-columns: 1fr;
+  }
+
+  .site-footer__grid {
+    padding: 2.6rem 0 2rem;
+  }
+
+  .site-footer__logo span {
+    font-size: 1.72rem;
+  }
+
+  .site-footer__top-link {
+    margin-left: 0;
   }
 
   .week-view__header,

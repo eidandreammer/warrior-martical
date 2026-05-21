@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import heroBackgroundImage from './assets/hero-background.png'
 import './App.css'
 
@@ -21,7 +21,8 @@ const navItems = [
   { label: 'Enroll', href: '#enroll' },
   { label: 'Instructors', href: '#instructors' },
   { label: 'Schedule', href: '#schedule' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Contact', href: '#footer-menu' },
 ]
 
 function LocationPinIcon() {
@@ -220,6 +221,31 @@ const socialLinks = [
   },
 ]
 
+const footerMenuGroups = [
+  {
+    title: 'Explore',
+    links: navItems,
+  },
+  {
+    title: 'Programs',
+    links: [
+      { label: 'Kids Classes', href: classCards[0].link, newTab: true },
+      { label: 'Adult Classes', href: classCards[1].link, newTab: true },
+      { label: 'Senior Wellness', href: classCards[2].link, newTab: true },
+      { label: 'Free Class Signup', href: freeClassSignupUrl, newTab: true },
+    ],
+  },
+  {
+    title: 'Connect',
+    links: [
+      { label: 'Email Us', href: 'mailto:defendlikeawarrior@gmail.com' },
+      { label: 'Call Us', href: 'tel:+15514042043' },
+      { label: 'View Location', href: viewLocationUrl, newTab: true },
+      ...socialLinks.map((social) => ({ ...social, newTab: true })),
+    ],
+  },
+]
+
 const defaultScheduleLocation = {
   locationName: 'Hasbrouck Heights',
   address: '460 Boulevard, Hasbrouck Heights, NJ 07604',
@@ -404,6 +430,7 @@ function getEventsForDate(events, dateString) {
 const calendarDays = getMonthGridDays()
 const weekStarts = getMonthWeekStarts()
 const navCondenseScrollThreshold = 48
+const navVisibilityScrollDelta = 12
 
 function getInstructorPageHref(slug) {
   return slug ? `#/instructors/${slug}` : '#/instructors'
@@ -609,10 +636,13 @@ function ScheduleEventCard({ event }) {
 }
 
 function App() {
+  const footerMenuRef = useRef(null)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [isNavCondensed, setIsNavCondensed] = useState(
     () => window.scrollY > navCondenseScrollThreshold,
   )
+  const [isNavVisible, setIsNavVisible] = useState(true)
+  const [isFooterMenuVisible, setIsFooterMenuVisible] = useState(false)
   const [scheduleView, setScheduleView] = useState('Month')
   const [scheduleCategory, setScheduleCategory] = useState('All')
   const [activeDate, setActiveDate] = useState(todayKey)
@@ -654,13 +684,33 @@ function App() {
 
   useEffect(() => {
     let frameId = 0
+    let lastScrollY = Math.max(window.scrollY, 0)
 
     function syncNavState() {
-      const shouldCondense = window.scrollY > navCondenseScrollThreshold
+      const currentScrollY = Math.max(window.scrollY, 0)
+      const shouldCondense = currentScrollY > navCondenseScrollThreshold
+      const scrollDelta = currentScrollY - lastScrollY
+      const shouldShowNav =
+        currentScrollY <= navCondenseScrollThreshold
+          ? true
+          : scrollDelta <= -navVisibilityScrollDelta
+            ? true
+            : scrollDelta >= navVisibilityScrollDelta
+              ? false
+              : null
 
       setIsNavCondensed((current) =>
         current === shouldCondense ? current : shouldCondense,
       )
+      setIsNavVisible((current) =>
+        shouldShowNav === null || current === shouldShowNav ? current : shouldShowNav,
+      )
+
+      if (shouldShowNav === false) {
+        setIsMenuOpen(false)
+      }
+
+      lastScrollY = currentScrollY
       frameId = 0
     }
 
@@ -682,6 +732,27 @@ function App() {
         window.cancelAnimationFrame(frameId)
       }
     }
+  }, [])
+
+  useEffect(() => {
+    const footerMenuElement = footerMenuRef.current
+
+    if (!footerMenuElement) {
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsFooterMenuVisible(entry.isIntersecting)
+      },
+      {
+        threshold: 0.15,
+      },
+    )
+
+    observer.observe(footerMenuElement)
+
+    return () => observer.disconnect()
   }, [])
 
   useEffect(() => {
@@ -796,10 +867,19 @@ function App() {
       events: getEventsForDate(filteredEvents, formatDateKey(date)),
     }))
     .filter((group) => group.events.length > 0)
+  const isHeaderHidden = isFooterMenuVisible || !isNavVisible
 
   return (
     <div className="page-shell">
-      <header className={`site-header ${isNavCondensed ? 'is-condensed' : ''}`}>
+      <header
+        className={[
+          'site-header',
+          isNavCondensed ? 'is-condensed' : '',
+          isHeaderHidden ? 'is-hidden' : '',
+        ]
+          .filter(Boolean)
+          .join(' ')}
+      >
         <div className="top-bar">
           
         </div>
@@ -1388,75 +1468,66 @@ function App() {
           </div>
         </section>
 
-        <section id="contact" className="section">
-          <div className="container contact-grid">
-            <div className="contact-copy" data-reveal>
-              <span className="eyebrow">Contact Us</span>
-              <h2>Questions, scheduling help, or ready to begin?</h2>
-              <p>
-                For any further questions or information email us at{' '}
-                <a href="mailto:defendlikeawarrior@gmail.com">
-                  defendlikeawarrior@gmail.com
-                </a>{' '}
-                or call{' '}
-                <a href="tel:+15514042043">+1 (551) 404-2043</a>.
-              </p>
-              <div className="contact-actions">
-                <a
-                  className="button button--primary"
-                  href="mailto:defendlikeawarrior@gmail.com"
-                >
-                  Email Us
-                </a>
-                <a className="button button--secondary" href="tel:+15514042043">
-                  Call Now
-                </a>
-              </div>
-
-              <div className="social-row">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    {social.label}
-                  </a>
-                ))}
-              </div>
-            </div>
-
-            <div className="locations-grid">
-              {locationCards.map((location) => (
-                <article key={location.name} className="location-card" data-reveal>
-                  <img src={location.image} alt={location.name} loading="lazy" />
-                  <div className="location-card__content">
-                    <span className="class-card__tag">Location</span>
-                    <h3>{location.name}</h3>
-                    <p>{location.address}</p>
-                    <a
-                      className="text-link"
-                      href={location.map}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View on Map
-                    </a>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+       
           </>
         )}
       </main>
 
-      <footer className="site-footer">
+      <footer id="contact" className="site-footer">
+        <div className="container site-footer__grid">
+          <div className="site-footer__brand">
+            <a className="site-footer__logo" href="#home" aria-label="Warrior Martial Arts home">
+              <img src={logoUrl} alt="" aria-hidden="true" />
+              <span>
+                Warrior
+                <small>Martial Arts</small>
+              </span>
+            </a>
+            <p>
+              Traditional Okinawan karate, self-defense, and senior wellness
+              training serving Hasbrouck Heights and Washington Township.
+            </p>
+            <div className="site-footer__contact">
+              <a href="mailto:defendlikeawarrior@gmail.com">
+                defendlikeawarrior@gmail.com
+              </a>
+              <a href="tel:+15514042043">+1 (551) 404-2043</a>
+            </div>
+          </div>
+
+          <nav
+            ref={footerMenuRef}
+            id="footer-menu"
+            className="site-footer__menu"
+            aria-label="Footer menu"
+          >
+            {footerMenuGroups.map((group) => (
+              <div key={group.title} className="footer-menu-group">
+                <h3>{group.title}</h3>
+                <ul>
+                  {group.links.map((link) => (
+                    <li key={`${group.title}-${link.label}`}>
+                      <a
+                        href={link.href}
+                        target={link.newTab ? '_blank' : undefined}
+                        rel={link.newTab ? 'noreferrer' : undefined}
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </nav>
+        </div>
         <div className="container site-footer__inner">
-          <span>© 2026 Warrior Martial Arts | Website by Pentcreative</span>
-          <a href="#home">Back to top</a>
+          <a className="site-footer__top-link" href="#home">
+            Back to top
+          </a>
+          <span className="site-footer__copyright">
+            &copy; 2026 Warrior Martial Arts | Website by Pentcreative
+          </span>
         </div>
       </footer>
     </div>
