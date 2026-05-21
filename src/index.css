@@ -1,28 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Teko:wght@500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap');
 
 :root {
-  --bg: #090708;
-  --bg-elevated: #120d0f;
-  --surface: rgba(22, 16, 18, 0.9);
-  --surface-strong: rgba(33, 23, 26, 0.96);
-  --surface-soft: rgba(255, 255, 255, 0.04);
-  --text: #f8f2ef;
-  --muted: #c7b7b0;
-  --muted-strong: #a58f87;
-  --line: rgba(255, 255, 255, 0.1);
-  --line-strong: rgba(255, 255, 255, 0.18);
-  --accent: #c3202e;
-  --accent-bright: #ff6748;
-  --accent-soft: rgba(195, 32, 46, 0.18);
-  --success: #e8d3b2;
-  --shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
-  --radius-sm: 16px;
-  --radius-md: 24px;
-  --radius-lg: 36px;
+  --bg: #f4f6f8;
+  --bg-strong: #ebeff3;
+  --surface: #ffffff;
+  --surface-alt: #f8fafc;
+  --surface-strong: #ffffff;
+  --text: #141a22;
+  --muted: #5f6b7a;
+  --muted-strong: #394250;
+  --line: #d8dee6;
+  --line-strong: #b9c3cf;
+  --accent: #c41230;
+  --accent-dark: #8f1026;
+  --accent-bright: #e2364f;
+  --accent-soft: #fff0f3;
+  --success: #a8142e;
+  --shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+  --shadow-strong: 0 24px 56px rgba(15, 23, 42, 0.12);
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 4px;
   --max-width: 1200px;
-  --font-body: 'Manrope', sans-serif;
-  --font-display: 'Teko', sans-serif;
-  color-scheme: dark;
+  --font-body: 'Montserrat', sans-serif;
+  --font-display: 'Oswald', sans-serif;
+  color-scheme: light;
   font-family: var(--font-body);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -44,33 +46,9 @@ body {
   margin: 0;
   min-width: 320px;
   background:
-    radial-gradient(circle at top left, rgba(255, 103, 72, 0.12), transparent 28%),
-    radial-gradient(circle at top right, rgba(195, 32, 46, 0.14), transparent 34%),
-    linear-gradient(180deg, #130d10 0%, #090708 30%, #0a0809 100%);
+    radial-gradient(circle at top, rgba(196, 18, 48, 0.06), transparent 30%),
+    linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
   color: var(--text);
-}
-
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.025) 0%,
-      transparent 18%,
-      transparent 82%,
-      rgba(255, 255, 255, 0.02) 100%
-    ),
-    repeating-linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.014) 0,
-      rgba(255, 255, 255, 0.014) 1px,
-      transparent 1px,
-      transparent 140px
-    );
-  opacity: 0.7;
 }
 
 a {
@@ -99,7 +77,7 @@ button {
 p {
   margin: 0;
   color: var(--muted);
-  line-height: 1.75;
+  line-height: 1.72;
 }
 
 h1,
@@ -109,8 +87,8 @@ h4 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 0.95;
+  letter-spacing: 0.02em;
+  line-height: 0.98;
   text-wrap: balance;
 }
 
@@ -121,7 +99,7 @@ ul {
 }
 
 ::selection {
-  background: rgba(195, 32, 46, 0.3);
+  background: rgba(196, 18, 48, 0.18);
   color: var(--text);
 }
 
