@@ -497,6 +497,7 @@ function getEventsForDate(events, dateString) {
 
 const calendarDays = getMonthGridDays()
 const weekStarts = getMonthWeekStarts()
+const navCondenseScrollThreshold = 48
 
 function getInstructorPageHref(slug) {
   return slug ? `#/instructors/${slug}` : '#/instructors'
@@ -703,6 +704,9 @@ function ScheduleEventCard({ event }) {
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [isNavCondensed, setIsNavCondensed] = useState(
+    () => window.scrollY > navCondenseScrollThreshold,
+  )
   const [scheduleView, setScheduleView] = useState('Month')
   const [scheduleCategory, setScheduleCategory] = useState('All')
   const [activeDate, setActiveDate] = useState(todayKey)
@@ -740,6 +744,38 @@ function App() {
       ? instructors.find((instructor) => instructor.slug === route.instructorSlug) ??
         instructors[0]
       : null
+
+  useEffect(() => {
+    let frameId = 0
+
+    function syncNavState() {
+      const shouldCondense = window.scrollY > navCondenseScrollThreshold
+
+      setIsNavCondensed((current) =>
+        current === shouldCondense ? current : shouldCondense,
+      )
+      frameId = 0
+    }
+
+    function handleScroll() {
+      if (frameId !== 0) {
+        return
+      }
+
+      frameId = window.requestAnimationFrame(syncNavState)
+    }
+
+    syncNavState()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+
+      if (frameId !== 0) {
+        window.cancelAnimationFrame(frameId)
+      }
+    }
+  }, [])
 
   useEffect(() => {
     function handleHashChange() {
@@ -856,7 +892,7 @@ function App() {
 
   return (
     <div className="page-shell">
-      <header className="site-header">
+      <header className={`site-header ${isNavCondensed ? 'is-condensed' : ''}`}>
         <div className="top-bar">
           
         </div>
