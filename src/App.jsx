@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react'
+import heroBackgroundImage from './assets/hero-background.png'
 import './App.css'
 
 const logoUrl =
   'https://warrior-martialarts.com/wp-content/uploads/2022/09/Warrior-Martial-Arts-LOGO-SMALL-3.png'
 
-const heroImageUrl =
-  'https://warrior-martialarts.com/wp-content/uploads/2022/12/Warrior-martial-arts-image.jpg'
+const heroImageUrl = heroBackgroundImage
 
 const viewLocationUrl =
   'https://warrior-martialarts.com/mc-locations/hasbrouck-heights/'
@@ -13,11 +13,13 @@ const viewLocationUrl =
 const mapUrl =
   'https://maps.google.com/maps?z=16&daddr=460+Boulevard++Hasbrouck+Heights+New+Jersey+07604+'
 
+const freeClassSignupUrl = 'https://forms.gle/Wg1A1VwcWfXgfND88'
+
 const navItems = [
   { label: 'Home', href: '#home' },
   { label: 'About', href: '#about' },
-  { label: 'Instructors', href: '#instructors' },
   { label: 'Enroll', href: '#enroll' },
+  { label: 'Instructors', href: '#instructors' },
   { label: 'Schedule', href: '#schedule' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -45,40 +47,67 @@ const classCards = [
 
 const instructors = [
   {
+    slug: 'mike-paredes',
     name: 'Sensei Mike Paredes',
+    headingName: 'Sensei Michael Paredes',
     title: 'Chief Instructor at Warrior Martial Arts Karate Self-Defense',
+    detailTitle: 'Chief instructor at Warrior Martial Arts Karate Self-Defense',
     description:
       'A Bergen County native, Air Force veteran, and fourth-degree black belt who has trained since 2007 and leads with discipline, service, and community.',
     image:
       'https://warrior-martialarts.com/wp-content/uploads/2022/12/sensei-mike.png',
-    link: 'https://warrior-martialarts.com/instructors/',
+    highlights: ['Training since 2007', '4th Degree Black Belt', 'Air Force veteran'],
+    bio: [
+      'Since 2007, I have trained at the Center for Karate & Family Fitness in Hasbrouck Heights, New Jersey, under the leadership of Grandmaster Dr. Juan Otero and Sensei Dale Inglima. Like everyone else, I started as a nyumonsha, or beginner, with no prior martial arts experience. With consistent dedication and training, I earned my black belt in 2013, my second-degree black belt in 2015, and my third-degree black belt in 2018 along with the title of Sensei. In 2022, I earned the rank of fourth-degree black belt and continue to pursue greater growth and learning.',
+      'I have been a lifelong Bergen County resident. I graduated from Nyack College and the Culinary Institute of America, receiving a BS in Business and an AOS in Occupational Studies. I am also a proud veteran of the U.S. Air Force and received my honorable discharge at the rank of Sergeant.',
+      'Warrior Martial Arts encourages and promotes faith, family, and friends. I am honored to continue this journey through our martial arts school and hope you will begin your training with us.',
+    ],
   },
   {
+    slug: 'deborah-adams',
     name: 'Sensei Deborah Adams',
     title: 'Senior Instructor',
+    detailTitle: 'Go-Dan (5th Degree) Senior Instructor',
     description:
       'Go-Dan senior instructor bringing experienced black-belt leadership and hands-on guidance across the Warrior program.',
     image:
       'https://warrior-martialarts.com/wp-content/uploads/2022/12/Sensei-Adam.png',
-    link: 'https://warrior-martialarts.com/instructors#adams',
+    highlights: ['Training since 2001', '5th Degree Black Belt', 'Mind-body-spirit focus'],
+    bio: [
+      'My name is Sensei Deborah Adams. I began my martial arts training in 2001 and received the rank of Go-Dan, fifth-degree black belt, in March 2022. Karate is a lifelong study and it runs through every aspect of my life. Just as a tree has one trunk but many branches, a well-rounded karateka is well trained across the disciplines of the arts. Training the mind, body, and spirit is essential to growth not only in the arts but in life as well.',
+      'Staying active in nature through hiking, canoeing, foraging, and weight training is important to me when balancing my training outside the dojo. Meditation, yoga, and breathwork keep me grounded on the softer internal side of the art. My goal is to continue sharing the heart of karate, which is self-defense, with my community and to help people build confidence, self-control, and the ability to protect themselves and those they love.',
+    ],
   },
   {
+    slug: 'se-min-um',
     name: 'Se Min Um',
     title: 'Go-dan / 5th Degree',
+    detailTitle: 'Go-dan (5th Degree)',
     description:
       'A fifth-degree black belt whose background spans Goshin-Ryu, Taekwondo, MCMAP, and cross-training across striking and grappling systems.',
     image:
       'https://warrior-martialarts.com/wp-content/uploads/2022/12/Sensei-Um.png',
-    link: 'https://warrior-martialarts.com/instructors/#um',
+    highlights: ['Training since age 14', '5th Degree Black Belt', 'Cross-style experience'],
+    bio: [
+      'My name is Se Min Um and I am a fifth-degree black belt, or Go-Dan, in Goshin-Ryu Karate. I have been training in martial arts since I was 14 years old, and my formal experience includes Karate, Taekwondo, and the Marine Corps Martial Arts Program (MCMAP). I enjoy learning from other combat sports such as boxing, wrestling, Muay Thai, Jujitsu, and Judo, and elements of those systems are visible in my techniques.',
+      'I also enjoy other physical activities such as cycling, basketball, and weight lifting, and I believe that all forms of exercise can be enjoyable and beneficial to our health. Martial arts has always interested me because it is a skill that can be used in all aspects of life, but most importantly it has given me the ability to defend the people I love and the beliefs I stand for. I hope my story inspires others to benefit from the gifts martial arts has to offer.',
+    ],
   },
   {
+    slug: 'andrea-hewitt',
     name: 'Sensei Andrea Hewitt',
+    headingName: 'Ms. Andrea Hewitt',
     title: 'Yondan / 4th Degree',
+    detailTitle: 'Yondan (4th Degree)',
     description:
       'Fourth-degree black belt instructor helping students develop strong fundamentals, technical precision, and traditional martial arts confidence.',
     image:
       'https://warrior-martialarts.com/wp-content/uploads/2022/12/Hewitt.png',
-    link: 'https://warrior-martialarts.com/instructors#hewitt',
+    highlights: ['Training since 2002', '4th Degree Black Belt', 'Family-centered teaching'],
+    bio: [
+      'I started my karate journey in 2002 under Sensei Otero at the Center for Karate and Family Fitness in Hackensack, New Jersey. Through the generosity and kindness of Sensei Otero and Sensei Inglima, I was able to train with many masters in different disciplines. Those opportunities allowed me to grow not only as a student, but personally as well.',
+      'My focus is now on teaching, and I consider it a great honor to pass on even a fraction of the wisdom my teachers shared with me. I try to carry the skills and discipline I have gained in training into every aspect of my life. I am fortunate that my husband is also a martial artist, and I hope one day to train with my daughter as she grows.',
+    ],
   },
 ]
 
@@ -155,12 +184,6 @@ const programPillars = [
   'Classical weapons (Kobudo)',
   "Women's assault prevention",
   'Tai Chi, Qi-Gong, and Sanchin exercise',
-]
-
-const sectionStats = [
-  { value: '2', label: 'New Jersey locations' },
-  { value: '29', label: 'May 2026 class sessions' },
-  { value: 'All ages', label: 'Kids through seniors' },
 ]
 
 const socialLinks = [
@@ -452,6 +475,184 @@ function getEventsForDate(events, dateString) {
 const calendarDays = getMonthGridDays()
 const weekStarts = getMonthWeekStarts()
 
+function getInstructorPageHref(slug) {
+  return slug ? `#/instructors/${slug}` : '#/instructors'
+}
+
+function getRouteFromHash(hash) {
+  if (hash.startsWith('#/instructors')) {
+    const [, slug = ''] = hash.split('/instructors/')
+
+    return {
+      view: 'instructors',
+      instructorSlug: slug.replace(/^\/+|\/+$/g, ''),
+    }
+  }
+
+  return {
+    view: 'home',
+    anchor: hash.startsWith('#') ? hash.slice(1) : 'home',
+  }
+}
+
+function InstructorDirectoryView({ selectedInstructorSlug }) {
+  const selectedInstructor =
+    instructors.find((instructor) => instructor.slug === selectedInstructorSlug) ??
+    instructors[0]
+
+  return (
+    <>
+      <section id="instructors-page-top" className="section instructor-directory-hero">
+        <div className="container">
+          <a className="text-link instructor-directory__back" href="#instructors">
+            Back to instructor cards
+          </a>
+
+          <div className="instructor-directory__intro">
+            <div className="instructor-directory__copy" data-reveal>
+              <span className="eyebrow">Instructor Page</span>
+              <h1>Instructors</h1>
+              <p className="instructor-directory__lead">
+                Meet the black-belt staff leading Warrior Martial Arts across youth
+                classes, adult training, self-defense, and senior wellness.
+              </p>
+
+              <div
+                className="instructor-directory__links"
+                role="navigation"
+                aria-label="Instructor quick links"
+              >
+                {instructors.map((instructor) => {
+                  const isActive = instructor.slug === selectedInstructor.slug
+
+                  return (
+                    <a
+                      key={instructor.slug}
+                      href={getInstructorPageHref(instructor.slug)}
+                      className={isActive ? 'is-active' : ''}
+                      aria-current={isActive ? 'page' : undefined}
+                    >
+                      {instructor.name}
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+
+            <article className="instructor-directory__spotlight hero-card" data-reveal>
+              <div className="instructor-directory__spotlight-image">
+                <img
+                  src={selectedInstructor.image}
+                  alt={selectedInstructor.headingName ?? selectedInstructor.name}
+                />
+              </div>
+              <div className="instructor-directory__spotlight-content">
+                <span className="detail-card__label">Selected Instructor</span>
+                <h2>{selectedInstructor.headingName ?? selectedInstructor.name}</h2>
+                <p className="instructor-directory__spotlight-title">
+                  {selectedInstructor.detailTitle}
+                </p>
+                <p>{selectedInstructor.description}</p>
+
+                <ul className="instructor-directory__highlights">
+                  {selectedInstructor.highlights.map((highlight) => (
+                    <li key={highlight}>{highlight}</li>
+                  ))}
+                </ul>
+
+                <div className="button-row">
+                  <a
+                    className="button button--primary"
+                    href={`#profile-${selectedInstructor.slug}`}
+                  >
+                    Read Full Bio
+                  </a>
+                  <a
+                    className="button button--secondary"
+                    href={freeClassSignupUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    Free Class Signup
+                  </a>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section className="section section--dark">
+        <div className="container instructor-directory__list">
+          {instructors.map((instructor, index) => {
+            const isActive = instructor.slug === selectedInstructor.slug
+
+            return (
+              <article
+                key={instructor.slug}
+                id={`profile-${instructor.slug}`}
+                data-instructor-slug={instructor.slug}
+                className={[
+                  'instructor-profile',
+                  index % 2 === 1 ? 'instructor-profile--reverse' : '',
+                  isActive ? 'is-active' : '',
+                ]
+                  .filter(Boolean)
+                  .join(' ')}
+                data-reveal
+              >
+                <div className="instructor-profile__media">
+                  <div className="instructor-profile__image">
+                    <img src={instructor.image} alt={instructor.name} loading="lazy" />
+                  </div>
+                </div>
+
+                <div className="instructor-profile__body">
+                  <span className="detail-card__label">{instructor.detailTitle}</span>
+                  <h2>{instructor.headingName ?? instructor.name}</h2>
+                  <p className="instructor-profile__summary">{instructor.description}</p>
+
+                  <ul className="instructor-profile__highlights">
+                    {instructor.highlights.map((highlight) => (
+                      <li key={highlight}>{highlight}</li>
+                    ))}
+                  </ul>
+
+                  {instructor.bio.map((paragraph) => (
+                    <p key={paragraph}>{paragraph}</p>
+                  ))}
+                </div>
+              </article>
+            )
+          })}
+
+          <div className="instructor-directory__footer" data-reveal>
+            <span className="detail-card__label">Train with the Team</span>
+            <strong>Ready to start your Warrior journey?</strong>
+            <p>
+              Explore the class schedule, sign up for a free class, or return to the
+              homepage to browse programs and locations.
+            </p>
+            <div className="button-row">
+              <a
+                className="button button--primary"
+                href={freeClassSignupUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Free Class Signup
+              </a>
+              <a className="button button--secondary" href="#schedule">
+                View Schedule
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  )
+}
+
 function ScheduleEventCard({ event }) {
   return (
     <article className="event-card">
@@ -482,6 +683,7 @@ function App() {
   const [scheduleView, setScheduleView] = useState('Month')
   const [scheduleCategory, setScheduleCategory] = useState('All')
   const [activeDate, setActiveDate] = useState(todayKey)
+  const [route, setRoute] = useState(() => getRouteFromHash(window.location.hash))
 
   const filteredEvents =
     scheduleCategory === 'All'
@@ -510,6 +712,22 @@ function App() {
       .length,
     seniors: scheduleEvents.filter((event) => event.title.includes('Senior')).length,
   }
+  const selectedInstructor =
+    route.view === 'instructors'
+      ? instructors.find((instructor) => instructor.slug === route.instructorSlug) ??
+        instructors[0]
+      : null
+
+  useEffect(() => {
+    function handleHashChange() {
+      setRoute(getRouteFromHash(window.location.hash))
+      setIsMenuOpen(false)
+    }
+
+    window.addEventListener('hashchange', handleHashChange)
+
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
 
   useEffect(() => {
     const elements = document.querySelectorAll('[data-reveal]')
@@ -540,7 +758,43 @@ function App() {
     elements.forEach((element) => observer.observe(element))
 
     return () => observer.disconnect()
-  }, [])
+  }, [route.view, route.instructorSlug])
+
+  useEffect(() => {
+    if (route.view === 'instructors') {
+      document.title = selectedInstructor
+        ? `${selectedInstructor.name} | Warrior Martial Arts`
+        : 'Instructors | Warrior Martial Arts'
+
+      const timeoutId = window.setTimeout(() => {
+        const targetId = route.instructorSlug
+          ? `profile-${selectedInstructor?.slug ?? instructors[0].slug}`
+          : 'instructors-page-top'
+
+        document.getElementById(targetId)?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        })
+      }, 60)
+
+      return () => window.clearTimeout(timeoutId)
+    }
+
+    document.title = 'Warrior Martial Arts'
+
+    if (!window.location.hash || window.location.hash.startsWith('#/')) {
+      return undefined
+    }
+
+    const timeoutId = window.setTimeout(() => {
+      document.getElementById(window.location.hash.slice(1))?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start',
+      })
+    }, 60)
+
+    return () => window.clearTimeout(timeoutId)
+  }, [route.view, route.instructorSlug, selectedInstructor])
 
   function handleNavClick() {
     setIsMenuOpen(false)
@@ -581,20 +835,7 @@ function App() {
     <div className="page-shell">
       <header className="site-header">
         <div className="top-bar">
-          <div className="container top-bar__inner">
-            <a href="tel:+15514042043">Call: +1 (551) 404-2043</a>
-            <a href="mailto:defendlikeawarrior@gmail.com">
-              Email: defendlikeawarrior@gmail.com
-            </a>
-            <a
-              className="top-bar__cta"
-              href="https://forms.gle/Wg1A1VwcWfXgfND88"
-              target="_blank"
-              rel="noreferrer"
-            >
-              Free Class Signup
-            </a>
-          </div>
+          
         </div>
 
         <div className="nav-bar">
@@ -629,21 +870,17 @@ function App() {
                   {item.label}
                 </a>
               ))}
-              <a
-                className="site-nav__cta"
-                href="https://forms.gle/Wg1A1VwcWfXgfND88"
-                target="_blank"
-                rel="noreferrer"
-                onClick={handleNavClick}
-              >
-                Sign up for a free class
-              </a>
+             
             </nav>
           </div>
         </div>
       </header>
 
       <main>
+        {route.view === 'instructors' ? (
+          <InstructorDirectoryView selectedInstructorSlug={selectedInstructor?.slug} />
+        ) : (
+          <>
         <section
           id="home"
           className="hero section"
@@ -667,11 +904,11 @@ function App() {
               <div className="hero__actions">
                 <a
                   className="button button--primary"
-                  href="https://forms.gle/Wg1A1VwcWfXgfND88"
+                  href={freeClassSignupUrl}
                   target="_blank"
                   rel="noreferrer"
                 >
-                  Sign up for a free class
+                  Sign Up for a Free Class
                 </a>
                 <a className="button button--secondary" href="#schedule">
                   View Schedule
@@ -682,27 +919,6 @@ function App() {
                   <li key={pillar}>{pillar}</li>
                 ))}
               </ul>
-            </div>
-
-            <div className="hero__visual" data-reveal>
-              <div className="hero-card hero-card--image">
-                <img
-                  src={heroImageUrl}
-                  alt="Warrior Martial Arts students training together"
-                />
-                <div className="hero-card__overlay">
-                  <strong>Train with confidence</strong>
-                  <span>Professional instruction rooted in tradition and community.</span>
-                </div>
-              </div>
-              <div className="hero-card hero-card--stats">
-                {sectionStats.map((stat) => (
-                  <div key={stat.label}>
-                    <strong>{stat.value}</strong>
-                    <span>{stat.label}</span>
-                  </div>
-                ))}
-              </div>
             </div>
           </div>
         </section>
@@ -855,21 +1071,40 @@ function App() {
             <div className="instructor-grid">
               {instructors.map((instructor) => (
                 <article key={instructor.name} className="instructor-card" data-reveal>
-                  <div className="instructor-card__image">
-                    <img src={instructor.image} alt={instructor.name} />
-                  </div>
-                  <div className="instructor-card__content">
-                    <span className="class-card__tag">{instructor.title}</span>
-                    <h3>{instructor.name}</h3>
-                    <p>{instructor.description}</p>
-                    <a
-                      className="text-link"
-                      href={instructor.link}
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      Learn More
-                    </a>
+                  <div className="instructor-card__inner">
+                    <div className="instructor-card__face instructor-card__face--front">
+                      <div className="instructor-card__image instructor-card__image--front">
+                        <img src={instructor.image} alt={instructor.name} loading="lazy" />
+                      </div>
+                      <div className="instructor-card__front-copy">
+                        <span className="instructor-card__label">Instructor Profile</span>
+                        <h3>{instructor.name}</h3>
+                        <p>{instructor.title}</p>
+                      </div>
+                      <span className="instructor-card__hint">Hover to reveal bio</span>
+                    </div>
+
+                    <div className="instructor-card__face instructor-card__face--back">
+                      <div className="instructor-card__image instructor-card__image--back">
+                        <img
+                          src={instructor.image}
+                          alt=""
+                          aria-hidden="true"
+                          loading="lazy"
+                        />
+                      </div>
+                      <div className="instructor-card__content">
+                        <span className="class-card__tag">{instructor.title}</span>
+                        <h3>{instructor.name}</h3>
+                        <p>{instructor.description}</p>
+                        <a
+                          className="text-link"
+                          href={getInstructorPageHref(instructor.slug)}
+                        >
+                          Learn More
+                        </a>
+                      </div>
+                    </div>
                   </div>
                 </article>
               ))}
@@ -1223,6 +1458,8 @@ function App() {
             </div>
           </div>
         </section>
+          </>
+        )}
       </main>
 
       <footer className="site-footer">
