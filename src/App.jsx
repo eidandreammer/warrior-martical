@@ -24,6 +24,29 @@ const navItems = [
   { label: 'Contact', href: '#contact' },
 ]
 
+function LocationPinIcon() {
+  return (
+    <svg viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+      <path
+        d="M24 42s11-10.639 11-22c0-6.075-4.925-11-11-11S13 13.925 13 20c0 11.361 11 22 11 22Z"
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2.5"
+      />
+      <circle
+        cx="24"
+        cy="20"
+        r="4.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2.5"
+      />
+    </svg>
+  )
+}
+
 const classCards = [
   {
     title: 'Kids - Warrior Martial Arts Classes',
@@ -841,24 +864,14 @@ function App() {
         <div className="nav-bar">
           <div className="container nav-bar__inner">
             <a className="brand" href="#home" onClick={handleNavClick}>
-              <img src={logoUrl} alt="Warrior Martial Arts logo" />
+              <span className="brand__mark" aria-hidden="true">
+                <img src={logoUrl} alt="Warrior Martial Arts logo" />
+              </span>
               <span>
                 Warrior
                 <small>Martial Arts</small>
               </span>
             </a>
-
-            <button
-              type="button"
-              className="menu-toggle"
-              aria-expanded={isMenuOpen}
-              aria-label="Toggle navigation"
-              onClick={() => setIsMenuOpen((open) => !open)}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
 
             <nav className={`site-nav ${isMenuOpen ? 'is-open' : ''}`}>
               {navItems.map((item) => (
@@ -870,8 +883,40 @@ function App() {
                   {item.label}
                 </a>
               ))}
-             
+              <a
+                className="site-nav__location"
+                href={mapUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                <LocationPinIcon />
+                <span>Directions</span>
+              </a>
             </nav>
+
+            <div className="nav-bar__utility">
+              <button
+                type="button"
+                className="menu-toggle"
+                aria-expanded={isMenuOpen}
+                aria-label="Toggle navigation"
+                onClick={() => setIsMenuOpen((open) => !open)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+
+              <a
+                className="nav-location-link"
+                href={mapUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Open Warrior Martial Arts directions in Google Maps"
+              >
+                <LocationPinIcon />
+              </a>
+            </div>
           </div>
         </div>
       </header>
